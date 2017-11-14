@@ -66,20 +66,7 @@ def read_os_run(filename):
     f.close()
     return run_os 
 
-def plot_data(data,cols,plabel,ax):
-    sns.distplot(data, color=cols[1],label=plabel)
-    #numargs = gev.numargs
-    #[ c ] = [0.9,] * numargs
-    #gev_shape,gev_loc,gev_scale = gev.fit(data)
-    #max_val=np.max(data)
-    #min_val=np.min(data)
-    #bins_hist=numpy.arange(min_val,max_val,(max_val-min_val)/25)
-    #n, bins, patches = ax.hist(data,bins=bins_hist,normed=1,facecolor=cols[1],alpha=0.3,label=plabel)
-    #gev_pdf = gev.pdf(numpy.arange(100),gev_shape,loc=gev_loc,scale=gev_scale)
-    #plt.plot(numpy.arange(100),gev_pdf,color=cols[0])
-    #print gev_pdf
- 
-def plot_distribution_data(diag): 
+def plot_distribution_data(diag,batch_no): 
 
     # Set up the plot
     font = {'family' : 'sans-serif',
@@ -96,17 +83,14 @@ def plot_distribution_data(diag):
     plt.setp(ax.get_yticklabels(),fontsize=12)
 
     # Read in the data
-    batch_act=631
-    batch_nat=632
+    data_win=read_data(batch_no,diag,"Windows")
+    data_lin=read_data(batch_no,diag,"Linux")
+    data_mac=read_data(batch_no,diag,"Mac")
     
-    data_win=read_data(batch_act,diag,"Windows")
-    data_lin=read_data(batch_act,diag,"Linux")
-    data_mac=read_data(batch_act,diag,"Mac")
-    #data_nat=read_data(batch_nat,diag,"Windows")
-    
-    plot_data(np.array(data_win),["MediumBlue","RoyalBlue"],"Windows",ax)
-    plot_data(np.array(data_lin),["SeaGreen","SpringGreen"],"Linux",ax)
-    plot_data(np.array(data_mac),["Orange","Gold"],"Mac",ax)
+    # PLot the data
+    sns.kdeplot(np.array(data_win), shade=True, color="MediumBlue",label="Windows")
+    sns.kdeplot(np.array(data_lin), shade=True, color="SeaGreen",label="Linux")
+    sns.kdeplot(np.array(data_mac), shade=True, color="Orange",label="Mac")
 
     ax.set_title(diag+" Distribution")
 
@@ -119,8 +103,9 @@ def plot_distribution_data(diag):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("variable", help="The diagnostic variable to look at Precip, Tmax or Tmin")
+    parser.add_argument("batch", help="The batch number")
     args = parser.parse_args()
-    plot_distribution_data(args.variable)
+    plot_distribution_data(args.variable,args.batch)
     print 'Finished!'
 
 #Washerboard function that allows main() to run on running this file
