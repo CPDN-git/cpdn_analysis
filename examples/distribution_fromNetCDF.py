@@ -13,24 +13,19 @@ import argparse
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-#from scipy.stats import genextreme as gev
 import seaborn as sns
 from netCDF4 import Dataset as netcdf_file 
 from cdo import *
 cdo = Cdo()
-EU = os.path.expanduser
-sys.path.append(EU("../"))
-from return_time_plot import *
 
-ddir="/gpfs/projects/cpdn/scratch/Khaled/"
-os_dir="/home/sarah.sparrow/"
+ddir="/group_workspaces/jasmin/cssp_china/users/ssparrow01/extracted/"
+os_dir="/home/users/ssparrow01/os_split/"
 bfolder="/region/"
 output={"Precip":("item5216_daily_mean","(mm/day)"),"Tmax":("item3236_daily_maximum","(K)"),"Tmin":("item3236_daily_minimum","(K)")}
 
 def read_data(batch,diag,os):
-    files=glob.glob(ddir+"batch_"+str(batch)+bfolder+output[diag][0]+"/subset_*.nc")
+    files=glob.glob(ddir+"batch_"+str(batch)+bfolder+output[diag][0]+"/*.nc")
     mean_vals=[]
-    
     # Read the dictionary of the run OS
     run_os=read_os_run(os_dir+"batch_"+str(batch)+"_os_results.csv")
     
@@ -38,19 +33,20 @@ def read_data(batch,diag,os):
 	file_split=ifile.split("/")
 	filename=file_split[-1]
 	filename_split=filename.split("_")
-	umid=filename_split[4]
+	umid=filename_split[3]
+	print umid
 	# Check the OS workunit was run on and reject if not windows
 	if run_os[umid]==os:
     		# Compute the field mean value timeseries and return it as a numpy array
     		if diag=="Precip":
-			vals=cdo.fldmean(input=ifile,returnCdf=True).variables[output[diag][0]][:] 
+			vals=cdo.fldmean(input=" -sellonlatbox,110,117,25,35 -remapbil,r720x360 "+ifile,returnCdf=True).variables[output[diag][0]][:] 
                 	vals = vals.flatten()
                 	vals=vals*86400
                 	mean_val=np.sum(vals)
 		else:
-			vals=cdo.fldmean(input=ifile,returnCdf=True).variables[output[diag][0]][:] 	
+			vals=cdo.fldmean(input=" -sellonlatbox,110,117,25,35 -remapbil,r720x360 "+ifile,returnCdf=True).variables[output[diag][0]][:] 	
 			vals = vals.flatten()
-			mean_val=np.mean(vals)
+			mean_val=np.max(vals)
 		mean_vals.append(mean_val)
     return mean_vals
 
