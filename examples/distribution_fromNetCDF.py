@@ -23,6 +23,7 @@ sys.path.append(EU("../"))
 from return_time_plot import *
 
 ddir="/gpfs/projects/cpdn/scratch/Khaled/"
+os_dir="/home/sarah.sparrow/"
 bfolder="/region/"
 output={"Precip":("item5216_daily_mean","(mm/day)"),"Tmax":("item3236_daily_maximum","(K)"),"Tmin":("item3236_daily_minimum","(K)")}
 
@@ -31,7 +32,7 @@ def read_data(batch,diag,os):
     mean_vals=[]
     
     # Read the dictionary of the run OS
-    run_os=read_os_run("/home/sarah.sparrow/batch_"+str(batch)+"_os_results.csv")
+    run_os=read_os_run(os_dir+"batch_"+str(batch)+"_os_results.csv")
     
     for ifile in files:
 	file_split=ifile.split("/")
