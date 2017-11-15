@@ -61,7 +61,7 @@ def read_data(batch,diag,os,resolution,subregion):
 		else:
 			vals=cdo.fldmean(input=inputstr+" "+ifile,returnCdf=True).variables[output[diag][0]][:] 	
 			vals = vals.flatten()
-			mean_val=np.sum(vals)
+			mean_val=np.mean(vals)
 		mean_vals.append(mean_val)
     return mean_vals
 
