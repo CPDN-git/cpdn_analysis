@@ -39,13 +39,13 @@ def calc_return_time_confidences(em, direction="ascending", c=[0.05, 0.95], bsn=
 	# bsn = boot strap number, number of times to resample the distribution
 	ey_data = em.flatten()
 	# create the store
-	sample_store = numpy.zeros((bsn, ey_data.shape[0]), 'f')
+	sample_store = numpy.zeros((int(bsn), ey_data.shape[0]), 'f')
 	# do the resampling
 	for s in range(0, int(bsn)):
 		t_data = numpy.zeros((ey_data.shape[0]), 'f')
 		for y in range(0, ey_data.shape[0]):
 			x = random.uniform(0, ey_data.shape[0])
-			t_data[y] = ey_data[x]
+			t_data[y] = ey_data[int(x)]
 		t_data.sort()
 		# reverse if necessary
 		if direction == "descending":
