@@ -106,9 +106,9 @@ def plot_distribution_data(diag,time_proc,batch_no,res,subr):
     plt.setp(ax.get_yticklabels(),fontsize=12)
 
     # Read in the data
-    data_win=read_data(batch_no,diag,time_proc,"Windows",res,subr)
-    data_lin=read_data(batch_no,diag,time_proc,"Linux",res,subr)
-    data_mac=read_data(batch_no,diag,time_proc,"Mac",res,subr)
+    data_win=read_data(batch_no,diag,time_proc,["Windows"],res,subr)
+    data_lin=read_data(batch_no,diag,time_proc,["Linux"],res,subr)
+    data_mac=read_data(batch_no,diag,time_proc,["Mac"],res,subr)
     
     # PLot the data
     sns.kdeplot(np.array(data_win), shade=True, color="MediumBlue",label="Windows")
@@ -133,7 +133,7 @@ def main():
     parser.add_argument("region_resolution", default="", help="The regional model resolution, 50km or 25km")
     parser.add_argument("subregion", default="", help="The sub region of interest as lon1,lon2,lat1,lat2")
     args = parser.parse_args()
-    plot_distribution_data(args.variable,args,time_process,args.batch,args.region_resolution,args.subregion)
+    plot_distribution_data(args.variable,args.time_process,args.batch,args.region_resolution,args.subregion)
     print 'Finished!'
 
 #Washerboard function that allows main() to run on running this file
