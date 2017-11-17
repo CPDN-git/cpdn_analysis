@@ -85,7 +85,7 @@ def read_os_run(filename):
 		val=row[-1]
 		run_os[key]=val
 	except:
-		print "Skipping line"
+		print "Read "+filename
     f.close()
     return run_os 
 
@@ -100,8 +100,6 @@ def plot_distribution_data(diag,time_proc,batch_no,res,subr):
     fig.set_size_inches(8,8)
     ax = fig.add_subplot(1,1,1)
     fig.subplots_adjust(bottom=0.15)
-    ax.set_ylabel("Occurrence",fontsize=16)
-    ax.set_xlabel(diag,fontsize=16)
     plt.setp(ax.get_xticklabels(),fontsize=12)
     plt.setp(ax.get_yticklabels(),fontsize=12)
 
@@ -118,6 +116,8 @@ def plot_distribution_data(diag,time_proc,batch_no,res,subr):
     dtitle=varname_dict[diag][timeargs.index(time_proc)]
 
     ax.set_title("Batch "+str(batch_no)+" "+dtitle+" Distribution")
+    ax.set_ylabel("Occurrence",fontsize=16)
+    ax.set_xlabel(dtitle+" "+output[diag][1],fontsize=16)
 
     ll=ax.legend(loc="upper right",prop={"size": 12},fancybox=True,numpoints=1)
 
