@@ -117,7 +117,10 @@ def plot_distribution_data(diag,time_proc,batch_no,res,subr):
 
     ax.set_title("Batch "+str(batch_no)+" "+dtitle+" Distribution")
     ax.set_ylabel("Occurrence",fontsize=16)
-    ax.set_xlabel(dtitle+" "+output[diag][1],fontsize=16)
+    if time_proc=="sum":
+    	ax_set_xlabel(dtitle,fontsize=16)
+    else:
+    	ax.set_xlabel(dtitle+" "+output[diag][1],fontsize=16)
 
     ll=ax.legend(loc="upper right",prop={"size": 12},fancybox=True,numpoints=1)
 
