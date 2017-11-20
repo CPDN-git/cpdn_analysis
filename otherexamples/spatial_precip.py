@@ -20,7 +20,7 @@ import datetime, time
 from mpl_toolkits.basemap import Basemap, shiftgrid
 from netCDF4 import Dataset as NetCDFFile, date2index, num2date
 import matplotlib.animation as animation
-ddir='HAPPI/' 
+ddir='Data/' 
 def get_rot_global_coords(in_file):
     f=netcdf.netcdf_file(ddir+in_file,'r')
     glat=f.variables['global_latitude0']
