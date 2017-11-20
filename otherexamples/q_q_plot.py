@@ -1,8 +1,6 @@
 ###############################################################################
 # File         : q_q_plot.py
-# Author       : Neil Massey
-# Created      : 11/08/11
-# Purpose      : Plot non-conditional quantiles
+# Function to make q-q plots
 ###############################################################################
 
 import matplotlib.pyplot as plt
