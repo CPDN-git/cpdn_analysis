@@ -93,22 +93,31 @@ def read_os_run(filename):
     f.close()
     return run_os 
 
-def plot_data(data,cols,plabel,ax):
+def plot_data(data,cols,plabel,ax,errb):
     y_data_all, x_data_all = calc_return_times(data,direction="descending",period=1)
     
     conf_all = calc_return_time_confidences(data,direction="descending",bsn=1000)
-    
-    l1=ax.semilogx(x_data_all,y_data_all, marker='o',markersize=7,
+    conf_all_x = calc_return_time_confidences(x_data_all,direction="descending",bsn=1000)
+
+    l1=ax.semilogx(x_data_all,y_data_all, marker='o',markersize=2,
                        linestyle='None',mec=cols[0],mfc=cols[0],
                        color=cols[0],fillstyle='full',
                        label=plabel,zorder=2)
     print x_data_all.shape
     conf_all_5=conf_all[0,:].squeeze()
     conf_all_95=conf_all[1,:].squeeze()
-    cl1=ax.fill_between(x_data_all,conf_all_5,conf_all_95,facecolor=cols[1],edgecolor=cols[1],alpha=0.3,linewidth=1.5,zorder=4)
 
+    conf_all_x_5=conf_all_x[0,:].squeeze()
+    conf_all_x_95=conf_all_x[1,:].squeeze()
+
+    if errb=="both":
+    	cl0=ax.fill_between(x_data_all,conf_all_5,conf_all_95,color=cols[1],alpha=0.2,linewidth=1.,zorder=0)
+    if errb=="magnitude" or errb=="both":
+    	cl1=ax.semilogx([x_data_all,x_data_all],[conf_all_5,conf_all_95],color=cols[1],linewidth=1.,zorder=1)
+    if errb=="return_time" or errb=="both":
+	cl2=ax.semilogx([conf_all_x_5,conf_all_x_95],[y_data_all,y_data_all],color=cols[1],linewidth=1.,zorder=1)
  
-def plot_return_time_data(diag,time_proc,batches,bnames,res,subr): 
+def plot_return_time_data(diag,time_proc,batches,bnames,res,subr,errb): 
 
     # Set up the plot
     font = {'family' : 'sans-serif',
@@ -130,7 +139,7 @@ def plot_return_time_data(diag,time_proc,batches,bnames,res,subr):
 
     for ib, batch_no in enumerate(batch_list):
     	data_win=read_data(batch_no,diag,time_proc,["Windows"],res,subr)
-    	plot_data(np.array(data_win),cols[ib],batch_names[ib],ax)
+    	plot_data(np.array(data_win),cols[ib],batch_names[ib],ax,errb)
 
     dtitle=varname_dict[diag][timeargs.index(time_proc)]
     ax.set_title(dtitle+" Return Times")
@@ -151,10 +160,11 @@ def main():
     parser.add_argument("time_process", help="The time processing required: mean, max, min or sum") 
     parser.add_argument("batch", help="The list of batch numbers to plot, entered as eg '507,508,509'")
     parser.add_argument("batch_name",help="The batch names to use entered as eg 'Actual,Natural,GHG only''")
-    parser.add_argument("region_resolution", default="", help="The regional model resolution: '50km' or '25km'")
-    parser.add_argument("subregion", default="", help="The sub region of interest as 'lon1,lon2,lat1,lat2'")
+    parser.add_argument("--region_resolution", default="", help="The regional model resolution: '50km' or '25km'")
+    parser.add_argument("--subregion", default="", help="The sub region of interest as 'lon1,lon2,lat1,lat2'")
+    parser.add_argument("--error_bar", default="both", help="Which error bars to display: 'return_time','magnitude','both'")
     args = parser.parse_args()
-    plot_return_time_data(args.variable,args.time_process,args.batch,args.batch_name,args.region_resolution,args.subregion)
+    plot_return_time_data(args.variable,args.time_process,args.batch,args.batch_name,args.region_resolution,args.subregion, args.error_bar)
     print 'Finished!'
 
 #Washerboard function that allows main() to run on running this file
