@@ -133,8 +133,8 @@ def main():
     parser.add_argument("variable", help="The diagnostic variable to look at Precip, Tmean, Tmax or Tmin")
     parser.add_argument("time_process", help="The time processing required: mean, max, min or sum")
     parser.add_argument("batch", help="The batch number")
-    parser.add_argument("region_resolution", default="", help="The regional model resolution, 50km or 25km")
-    parser.add_argument("subregion", default="", help="The sub region of interest as lon1,lon2,lat1,lat2")
+    parser.add_argument("--region_resolution", default="", help="The regional model resolution, 50km or 25km")
+    parser.add_argument("--subregion", default="", help="The sub region of interest as lon1,lon2,lat1,lat2")
     args = parser.parse_args()
     plot_distribution_data(args.variable,args.time_process,args.batch,args.region_resolution,args.subregion)
     print 'Finished!'
