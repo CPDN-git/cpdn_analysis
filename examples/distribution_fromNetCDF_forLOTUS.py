@@ -49,7 +49,7 @@ def read_data(batch,diag,time_proc,subregion):
         elif time_proc =="max":
                 mean_val=np.max(vals)
         elif time_proc =="min":
-                mean_val==np.min(vals)
+                mean_val=np.min(vals)
         elif time_proc =="sum":
                 mean_val=np.sum(vals)
 
