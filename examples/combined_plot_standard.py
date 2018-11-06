@@ -198,13 +198,13 @@ def plot_return_time_data(dataHist,data15,data2,errb,diag,fig):
     ax.set_xlim(1,1e4)
 
     actBoot,actBootx=plot_data(np.array(dataHist),["MediumBlue","MediumBlue"],"Historical",ax,errb,diag)
-    15Boot,15Bootx=plot_data(np.array(data15),["Gold","Gold"],"1.5 degree",ax,errb,diag)
-    2Boot,2Bootx=plot_data(np.array(data2),["Red","Red"],"2 degree",ax,errb,diag)
+    Boot15,Bootx15=plot_data(np.array(data15),["Gold","Gold"],"1.5 degree",ax,errb,diag)
+    Boot2,Bootx2=plot_data(np.array(data2),["Red","Red"],"2 degree",ax,errb,diag)
     #[RR_5,RR_50,RR_95]=calc_RR_conf(actBoot,natBoot,[5,50,95],threshold)
     rp_threshold=10
-    [RR_5,RR_50,RR_95]=calc_RR_conf(2Bootx,histBootx,[5,50,95],rp_threshold)
+    [RR_5,RR_50,RR_95]=calc_RR_conf(Bootx2,histBootx,[5,50,95],rp_threshold)
     print "2 degree RR:",RR_50,RR_5,RR_95
-    [RR_5,RR_50,RR_95]=calc_RR_conf(15Bootx,histBootx,[5,50,95],rp_threshold)
+    [RR_5,RR_50,RR_95]=calc_RR_conf(Bootx15,histBootx,[5,50,95],rp_threshold)
     print "1.5 degree RR:",RR_50,RR_5,RR_95
 
     labels=['','1/1','1/10','1/100','1/1000','1/10000']
