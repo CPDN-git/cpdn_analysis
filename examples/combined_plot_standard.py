@@ -61,7 +61,7 @@ def read_data(batch,diag,time_proc, os_run,resolution,subregion,umid_limits):
 		
 		# Convert to mm/day for Precip
                 if diag=="Precip":
-                vals=vals*86400
+                	vals=vals*86400
 
 		# Perform the required time processing on the data
         	if time_proc =="mean":
