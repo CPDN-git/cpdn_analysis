@@ -108,7 +108,7 @@ def plot_figure(diag,time_proc,res,subr,errb,restore):
     plot_distribution_data(dataHist,data15,data2,diag,fig)
     plot_return_time_data(dataHist,data15,data2,errb,diag,fig)
     plt.tight_layout()
-    fig.savefig("combined_figure_"+str(diag)+"_joe.png",dpi=28.75*2)
+    fig.savefig("combined_figure_"+str(diag)+".png",dpi=28.75*2)
 
 def plot_distribution_data(dataHist,data15,data2,diag,fig): 
     ax = fig.add_subplot(1,2,1)
