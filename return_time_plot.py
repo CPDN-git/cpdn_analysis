@@ -90,7 +90,7 @@ def multi_return_time_plot(plt_obj, ens, direction="ascending", highlight=-2e20,
 				fi = numpy.interp([highlight], y_data[e][::-1], x_data[e][::-1])
 			else:
 				fi = numpy.interp([highlight], y_data[e], x_data[e])
-			print fi
+			print(fi)
 			# plot the highlight
 			plt_obj.plot(fi, highlight, 'ko', marker='o', 
 						 mec=colors[e], mfc=colors[e], ms = 8.0, zorder=2,
